@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des tâches</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Gestion des tâches</h1>
+
+    <div class="container">
+        <!-- Formulaire de création -->
+        <div class="task-form">
+            <h2>Créer une tâche</h2>
+            <input type="text" id="titre" placeholder="Titre">
+            <textarea id="description" placeholder="Description"></textarea>
+            <input type="date" id="echeance">
+            
+            <select id="statut">
+                <option value="à faire">À faire</option>
+                <option value="en cours">En cours</option>
+                <option value="terminée">Terminée</option>
+                <option value="annulée">Annulée</option>
+            </select>
+
+            <select id="priorite">
+                <option value="basse">Basse</option>
+                <option value="moyenne">Moyenne</option>
+                <option value="haute">Haute</option>
+                <option value="critique">Critique</option>
+            </select>
+
+            <input type="text" id="categorie" placeholder="Catégorie">
+            <input type="text" id="etiquettes" placeholder="Étiquettes (séparées par des virgules)">
+            
+            <h3>Auteur</h3>
+            <input type="text" id="nom" placeholder="Nom">
+            <input type="text" id="prenom" placeholder="Prénom">
+            <input type="email" id="email" placeholder="Email">
+
+            <h3>Sous-tâches</h3>
+            <div id="sousTaches"></div>
+            <button onclick="ajouterSousTache()">+ Ajouter une sous-tâche</button>
+
+            <button onclick="creerTache()">Créer la tâche</button>
+        </div>
+
+        <!-- Liste des tâches avec filtres et tri -->
+        <div class="task-list">
+            <h2>Liste des tâches</h2>
+            <input type="text" id="search" placeholder="Rechercher une tâche...">
+            
+            <select id="filter-status">
+                <option value="">Tous les statuts</option>
+                <option value="à faire">À faire</option>
+                <option value="en cours">En cours</option>
+                <option value="terminée">Terminée</option>
+            </select>
+
+            <select id="filter-priority">
+                <option value="">Toutes priorités</option>
+                <option value="basse">Basse</option>
+                <option value="moyenne">Moyenne</option>
+                <option value="haute">Haute</option>
+                <option value="critique">Critique</option>
+            </select>
+
+            <!-- Nouveau menu déroulant pour le tri -->
+            <select id="sort-criteria">
+                <option value="">Aucun tri</option>
+                <option value="echeance">Date d'échéance</option>
+                <option value="priorite">Priorité</option>
+                <option value="dateCreation">Date de création</option>
+            </select>
+
+            <!-- Nouveau menu déroulant pour l'ordre -->
+            <select id="sort-order">
+                <option value="asc">Ordre croissant</option>
+                <option value="desc">Ordre décroissant</option>
+            </select>
+
+            <button onclick="loadTasks()">Filtrer et Trier</button>
+
+            <ul id="task-list" class="task-list-simplified"></ul>
+        </div>
+    </div>
+
+    <!-- Popup de détail -->
+    <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content" id="popup-content">
+            <span class="close" onclick="fermerPopup()">&times;</span>
+            <input type="text" id="popup-title" placeholder="Titre">
+            <textarea id="popup-description" placeholder="Description"></textarea>
+            <input type="date" id="popup-echeance">
+            <select id="popup-statut">
+                <option value="à faire">À faire</option>
+                <option value="en cours">En cours</option>
+                <option value="terminée">Terminée</option>
+                <option value="annulée">Annulée</option>
+            </select>
+            <select id="popup-priorite">
+                <option value="basse">Basse</option>
+                <option value="moyenne">Moyenne</option>
+                <option value="haute">Haute</option>
+                <option value="critique">Critique</option>
+            </select>
+            <h3>Sous-tâches</h3>
+            <ul id="popup-sousTaches"></ul>
+            <button onclick="enregistrerModifications()">Enregistrer</button>
+        </div>
+    </div>
+
+    <div id="view-popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close" onclick="fermerViewPopup()">&times;</span>
+            <h2 id="view-popup-title"></h2>
+            <p id="view-popup-description"></p>
+            <p><strong>Date d'échéance :</strong> <span id="view-popup-echeance"></span></p>
+            <p><strong>Statut :</strong> <span id="view-popup-statut"></span></p>
+            <p><strong>Priorité :</strong> <span id="view-popup-priorite"></span></p>
+            <p><strong>Catégorie :</strong> <span id="view-popup-categorie"></span></p>
+            <p><strong>Étiquettes :</strong> <span id="view-popup-etiquettes"></span></p>
+            <p><strong>Auteur :</strong> <span id="view-popup-auteur"></span></p>
+            <h3>Sous-tâches</h3>
+            <ul id="view-popup-sousTaches"></ul>
+
+            <!-- Section des commentaires -->
+            <h3>Commentaires</h3>
+            <ul id="view-popup-commentaires"></ul>
+            <textarea id="new-comment-content" placeholder="Ajouter un commentaire..."></textarea>
+            <input type="text" id="new-comment-author" placeholder="Nom de l'auteur">
+            <button onclick="ajouterCommentaire()">Envoyer</button>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
